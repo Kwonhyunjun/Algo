@@ -1,0 +1,6 @@
+-- 코드를 입력하세요
+SELECT CATEGORY, sum(sales)	TOTAL_SALES
+FROM BOOK a JOIN BOOK_SALES b on a.BOOK_ID = b.BOOK_ID
+WHERE SUBSTR(sales_date, 1, 7) = '2022-01'
+GROUP BY category
+ORDER BY CATEGORY; 
