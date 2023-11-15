@@ -8,4 +8,5 @@ WHERE CAR_ID in (
     HAVING count(CAR_ID) >= 5
 ) and MONTH(START_DATE) between 8 and 10
 GROUP BY MONTH(start_date), CAR_ID
+HAVING not COUNT(history_id) =0
 ORDER BY MONTH(start_date), CAR_ID DESC;
