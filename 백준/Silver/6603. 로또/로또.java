@@ -1,48 +1,54 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	static int N, M; 
-	static int[] input; 
-	static int[] nums;
-	public static void main(String[] args) throws Exception {
+	
+	static int N, arr[], ans[]; 
+	static StringBuilder sb = new StringBuilder(); 
+
+	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
 		
 		while(true) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			N = Integer.parseInt(st.nextToken());
-			if(N == 0) break; 
+			st = new StringTokenizer(br.readLine()); 
 			
-			input = new int[N]; 
+			N = Integer.parseInt(st.nextToken()); 
+			
+			if(N == 0) break;
+			
+			arr = new int[N];
+			ans = new int[6]; 
 			
 			for(int i=0; i<N; i++) {
-				input[i] = Integer.parseInt(st.nextToken()); 
+				arr[i] = Integer.parseInt(st.nextToken()); 
 			}
-			// INPUT END 
-			nums = new int[6];
 			
 			combi(0, 0); 
-			System.out.println();
+			
+			sb.append("\n"); 
+			
 		}
 		
-		
-		
+		System.out.println(sb); 
+
 	}
-	private static void combi(int cnt, int start) {
+	
+	static void combi(int cnt, int start) {
 		if(cnt == 6) {
 			for(int i=0; i<6; i++) {
-				System.out.print(nums[i] + " ");
+				sb.append(ans[i]).append(" "); 
 			}
-			System.out.println();
-			return; 
+			sb.append("\n"); 
+			
+			return;
 		}
 		
 		for(int i=start; i<N; i++) {
-			nums[cnt] = input[i]; 
+			ans[cnt] = arr[i];
 			combi(cnt+1, i+1); 
 		}
+		
 	}
-
 
 }
