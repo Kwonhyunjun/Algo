@@ -5,17 +5,6 @@ public class Main {
 	
 	static int red, blue; 
 	static String str;
-	static List<Data> list; 
-	
-	static class Data{
-		char color; 
-		int cnt; 
-		
-		public Data(char color, int cnt) {
-			this.color = color; 
-			this.cnt = cnt; 
-		}
-	}
 	
 	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
@@ -23,58 +12,45 @@ public class Main {
 		int N = Integer.parseInt(br.readLine()); 
 		str = br.readLine(); 
 		
-		list = new ArrayList<>(); 
-		
-		list.add(new Data(str.charAt(0), 1));
-		
-		if(str.charAt(0) == 'R') {
-			red++; 
-		}else {
-			blue++; 
+		for(int i=0; i<N; i++) {
+			if(str.charAt(i) == 'R') red++; 
 		}
 		
-		for(int i=1; i<N; i++) {
-			Data prev = list.get(list.size()-1);
-			char cur = str.charAt(i);
-			
-			if(cur == 'R') {
-				red++; 
-			}else {
-				blue++; 
-			}
-			
-			if(prev.color == cur) {
-				prev.cnt++; 
-			}else {
-				list.add(new Data(cur, 1));
-			}
-		}
+		blue = N - red;
 		
-		for(int i=0; i<list.size(); i++) {
-//			System.out.printf("%c %d\n", list.get(i).color, list.get(i).cnt);
-		}
-		
-//		System.out.printf("%d %d\n", red, blue);
-		
+//		System.out.printf("red %d blue %d\n", red, blue);
 		
 		// 왼쪽
-		int left = 0; 
-		if(list.get(0).color == 'R') {
-			left = Math.min(blue, red - list.get(0).cnt); 
-		}else {
-			left = Math.min(red, blue - list.get(0).cnt);
+		char left = str.charAt(0);
+		int i = 1; 
+		while(i < N && left == str.charAt(i)) {
+			i++; 
 		}
 		
-		int right = 0; 
-		if(list.get(list.size()-1).color == 'R') {
-			right = Math.min(blue, red - list.get(list.size()-1).cnt);
+		int l = 0;
+		if(left == 'R') {
+			l = Math.min((red - i), blue);
 		}else {
-			left = Math.min(red, blue - list.get(list.size()-1).cnt);
+			l = Math.min(red, (blue - i)); 
 		}
 		
-//		System.out.printf("left(%d), right(%d)\n", left, right); 
+		// 오른쪽 
+		char right = str.charAt(N-1);
+		i = 1;
+		int idx = N-2; 
+		while(idx >= 0 && right == str.charAt(idx)) {
+			idx--; 
+			i++;
+		}
 		
-		System.out.println(Math.min(left, right)); 
+		int r = 0;
+		if(right == 'R') {
+			r = Math.min((red - i), blue);
+		}else {
+			r = Math.min(red, (blue - i)); 
+		}
+		
+		System.out.println(Math.min(r, l));
 	}
 
 }
