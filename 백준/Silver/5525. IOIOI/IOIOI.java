@@ -10,24 +10,28 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 		int M = Integer.parseInt(br.readLine());
 		
-		String str = br.readLine();
+		char[] str = br.readLine().toCharArray();
 		 
 		
-		for(int i=0; i<N; i++) {
-			sb.append("OI"); 
-		}
-		
-		String string = sb.toString();
-		int len = sb.length();
 		int answer = 0; 
-		
-		for(int i=0; i<M-len+1; i++) {
-			String part = str.substring(i, i+len); 
+		for(int i=0; i<M; i++) {
 			
-			if(string.equals(part)) {
-				answer++; 
+			int k = 0; // IOI의 개수
+			if(str[i] == 'O') continue;
+			
+			while(i+2 < M && str[i+1] == 'O' && str[i+2] == 'I') {
+				k++; 
+				
+				if(k==N) {
+					answer++;
+					k--; 
+				}
+				i += 2; 
 			}
 		}
+		
+		
+		
 		
 		System.out.println(answer);
 	}
