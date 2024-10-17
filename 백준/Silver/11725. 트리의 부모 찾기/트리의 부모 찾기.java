@@ -1,66 +1,62 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
 	
 	static int N, parents[]; 
-	static ArrayList<ArrayList<Integer>> adjList;  
+	static boolean[] v; 
+	static ArrayList<Integer>[] adjList; 
 
 	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st; 
 		
-		N = Integer.parseInt(br.readLine()); 
+		N = Integer.parseInt(br.readLine());
+		parents = new int[N+1];
+		v = new boolean[N+1];
 		
-		adjList = new ArrayList<>();
-		parents = new int[N+1]; 
+		adjList = new ArrayList[N+1]; 
 		
-		for(int i=0; i<N+1; i++) {
-			adjList.add(new ArrayList<>()); 
+		for(int i=1; i<=N; i++) {
+			adjList[i] = new ArrayList<>();
 		}
 		
-		// 간선 정보 받기
 		for(int i=0; i<N-1; i++) {
-			st = new StringTokenizer(br.readLine()); 
+			st = new StringTokenizer(br.readLine());
+			int n1 = Integer.parseInt(st.nextToken());
+			int n2 = Integer.parseInt(st.nextToken());
 			
-			int to = Integer.parseInt(st.nextToken());
-			int from = Integer.parseInt(st.nextToken());
-			
-			adjList.get(to).add(from);
-			adjList.get(from).add(to);
+			adjList[n1].add(n2);
+			adjList[n2].add(n1); 
 		}
 		
-		Arrays.fill(parents, -1);
-		bfs(1); 
+		dfs(1); 
 		
 		StringBuilder sb = new StringBuilder(); 
+		
 		for(int i=2; i<N+1; i++) {
-			sb.append(parents[i]).append("\n"); 
+		
+			sb.append(parents[i]).append("\n");
 		}
+		
 		
 		System.out.println(sb);
 	}
-
-	private static void bfs(int start) {
-		Queue<Integer> q = new ArrayDeque<>(); 
+	
+	
+	
+	static void dfs(int parent) {
 		
-		q.offer(start); 
-		parents[start] = 0; 
+		ArrayList<Integer> cur = adjList[parent];
+		v[parent] = true;
 		
-		while(!q.isEmpty()) {
-			int cur = q.poll(); 
+		for(int i=0; i<cur.size(); i++) {
 			
-			for(int i=0; i<adjList.get(cur).size(); i++) {
-				int next = adjList.get(cur).get(i); 
-				
-				if(next == parents[cur]) continue; 
-				
-				q.offer(next);
-				parents[next] = cur; 
-			}
+			int num = cur.get(i);
+			if(v[num]) continue; 
+			parents[num] = parent; 
+			dfs(num); 
 		}
 	}
-	
-	
 
 }
