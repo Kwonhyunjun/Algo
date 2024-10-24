@@ -1,46 +1,57 @@
 import java.io.*;
 import java.util.*;
- 
+
 public class Main {
- 
-    public static void main(String[] args) throws IOException {
- 
-        //입력
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
- 
-        int t = Integer.parseInt(bf.readLine());
-        for(int i = 0; i < t; i++) {
-            String str = bf.readLine();
-            int k = Integer.parseInt(bf.readLine()); 
-            //입력 끝
- 
-            if(k == 1) { //k가 1일때
-                System.out.println("1 1");
+
+	public static void main(String[] args) throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		
+		int T = Integer.parseInt(br.readLine());
+		
+		for(int t=0; t<T; t++) {
+			String str = br.readLine();
+			int K = Integer.parseInt(br.readLine()); 
+			int N = str.length();
+			
+			if(K == 1) { //k가 1일때
+                sb.append(1).append(" ").append(1).append("\n");
                 continue;
             }
- 
-            int[] alpha = new int[26];//알파벳 별 개수를 저장한다. 
-            for(int j = 0; j < str.length(); j++) {
-                alpha[str.charAt(j) - 'a']++;
-            }
- 
-            int min = Integer.MAX_VALUE;
-            int max = -1;
-            for(int j = 0; j < str.length(); j++) {
-                if(alpha[str.charAt(j) - 'a'] < k) continue;
- 
-                int count = 1;
-                for(int l = j + 1; l < str.length(); l++) {
-                    if(str.charAt(j) == str.charAt(l)) count++;
-                    if(count == k) {
-                        min = Math.min(min, l - j + 1);
-                        max = Math.max(max, l - j + 1);
-                        break;
-                    }
-                }
-            }
-            if(min == Integer.MAX_VALUE || max == -1) System.out.println("-1");
-            else System.out.println(min + " " + max);
-        }
-    }        
+			
+			int[] alpha = new int[26]; 
+
+			for(int i=0; i<N; i++) {
+				alpha[str.charAt(i)-97]++; 
+			}
+			
+			int min = Integer.MAX_VALUE;
+			int max = -1; 
+			
+			for(int l=0; l<N; l++) {
+				if(alpha[str.charAt(l)-97] < K) continue; 
+				
+				int cnt = 1;
+				for(int r=l+1; r<N; r++) {
+					if(str.charAt(r) == str.charAt(l)) {
+						cnt++; 
+					}
+					
+					if(cnt == K) {
+						min = Math.min(min, r-l+1);
+						max = Math.max(max, r-l+1); 
+						break;
+					}
+				}
+			}
+			
+			if(min == Integer.MAX_VALUE || max == -1) sb.append(-1).append("\n"); 
+			else sb.append(min).append(" ").append(max).append("\n"); 
+			
+		}
+		
+		System.out.println(sb);
+
+	}
+
 }
