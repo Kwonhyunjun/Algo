@@ -1,0 +1,17 @@
+WITH parents as (
+    SELECT 
+        ITEM_ID
+    FROM
+      ITEM_TREE  
+    WHERE 
+        PARENT_ITEM_ID in (SELECT ITEM_ID FROM ITEM_INFO WHERE RARITY = 'RARE')
+)
+
+SELECT 
+    ITEM_ID, ITEM_NAME, RARITY
+FROM 
+    ITEM_INFO
+WHERE 
+    ITEM_ID in (SELECT * FROM parents)
+ORDER BY 
+    1 desc; 
