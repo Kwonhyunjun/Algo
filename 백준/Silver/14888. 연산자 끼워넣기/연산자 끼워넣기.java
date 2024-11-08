@@ -1,70 +1,73 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-class Main {
-	static int N; 
-	static int[] oper, num;
-	static int max, min; 
-	static StringBuilder sb = new StringBuilder(); 
+public class Main {
+
+	static int N, oper[], nums[], min, max;
 	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	public static void main(String[] args) throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 		StringTokenizer st; 
 		
-			N = Integer.parseInt(br.readLine());
-			oper = new int[4];
-			num = new int[N];
-			st = new StringTokenizer(br.readLine());
-			for(int i=0; i<N; i++) {
-				num[i] = Integer.parseInt(st.nextToken());
-			}
-			st = new StringTokenizer(br.readLine());
-			for(int i=0; i<4; i++){
-				oper[i] = Integer.parseInt(st.nextToken());
-			}
-			max = Integer.MIN_VALUE;
-			min = Integer.MAX_VALUE; 
-			
-			solve(0, num[0]);
-			System.out.println(max);
-			System.out.println(min);
+		N = Integer.parseInt(br.readLine());
+		nums = new int[N];
+		oper = new int[4];
+		
+		st = new StringTokenizer(br.readLine()); 
+		for(int i=0; i<N; i++) {
+			nums[i] = Integer.parseInt(st.nextToken()); 
+		}
+		
+		st = new StringTokenizer(br.readLine()); 
+		for(int i=0; i<4; i++) {
+			oper[i] = Integer.parseInt(st.nextToken()); 
+		}
+		
+		min = Integer.MAX_VALUE;
+		max = Integer.MIN_VALUE;
+		solve(1, nums[0], oper[0], oper[1], oper[2], oper[3]); 
+		
+		System.out.println(max);
+		System.out.println(min);
 	}
-
-	private static void solve(int cnt, int res) {
-		if(cnt == N-1) {
-			max = Math.max(max, res);
-			min = Math.min(min, res); 
+	
+	static void solve(int idx, int res, int plus, int minus, int multiple, int divide) {
+//		System.out.println("idx : " + idx + " res : " + res+ " "+ plus + " " + minus + " " + multiple + " " + divide);
+		if(idx == N) {
+//			System.out.println(res);
+			min = Math.min(min, res);
+			max = Math.max(max, res); 
 			return; 
 		}
 		
-		// 더하기
-		if(oper[0] > 0) {
-			oper[0]--; 
-			solve(cnt+1, res+num[cnt+1]);
-			oper[0]++;
+		
+		if(plus > 0) {
+			solve(idx+1, res + nums[idx], plus-1, minus, multiple, divide);
 		}
 		
-		// 더하기
-		if(oper[1] > 0) {
-			oper[1]--; 
-			solve(cnt+1, res-num[cnt+1]);
-			oper[1]++;
+		if(minus > 0) {
+			solve(idx+1, res - nums[idx], plus, minus-1, multiple, divide);
 		}
 		
-		// 더하기
-		if(oper[2] > 0) {
-			oper[2]--; 
-			solve(cnt+1, res*num[cnt+1]);
-			oper[2]++;
+		if(multiple > 0) {
+			solve(idx+1, res * nums[idx], plus, minus, multiple-1, divide);
 		}
-				
-		// 더하기
-		if(oper[3] > 0) {
-			oper[3]--; 
-			solve(cnt+1, res/num[cnt+1]);
-			oper[3]++;
-		}	
+		
+		if(divide > 0) {
+			int temp = 0; 
+			if(res < 0) {
+				temp = res * -1 / nums[idx];
+				temp *= -1; 
+			}else {
+				temp = res / nums[idx]; 
+			}
+			solve(idx+1, temp, plus, minus, multiple, divide-1);
+		}
+		
+		
+		
 	}
 	
+	
+
 }
