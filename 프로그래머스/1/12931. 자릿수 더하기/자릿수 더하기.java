@@ -5,12 +5,10 @@ public class Solution {
         int answer = 0;
 
         while(n > 0){
-            int digit = n % 10; 
-            n /= 10; 
-            // System.out.println(digit);
-            answer += digit;
+            answer += n%10; 
+            n/=10; 
         }
-
+        
         return answer;
     }
 }
