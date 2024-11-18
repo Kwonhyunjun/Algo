@@ -1,13 +1,18 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(long n) {
+        int[] answer = {};
         
-        int len = (int) Math.log10(n) + 1; 
+        StringBuilder sb = new StringBuilder(String.valueOf(n)); 
+        sb.reverse(); 
         
-        int[] answer = new int[len]; 
+        // System.out.println(sb);
         
-        for (int i = 0; n > 0; i++) {
-            answer[i] = (int) (n % 10);
-            n /= 10;
+        answer = new int[sb.length()];
+        
+        for(int i=0; i<sb.length(); i++){
+            answer[i] = sb.charAt(i)-48;
         }
         
         return answer;
