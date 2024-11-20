@@ -34,7 +34,6 @@ public class Main {
 		
 		for(int t=1; t<T; t++) {
 			dp[t][0][0] = (tree[t] == 1) ? dp[t-1][0][0] + 1 : dp[t-1][0][0];
-//			System.out.println(dp[t][0][0]); 
 		}
 		
 		for(int t=1; t<T; t++) {
@@ -43,42 +42,11 @@ public class Main {
 				for(int i=0; i<2; i++) {
 					int cur = (tree[t] == i+1) ? 1 : 0; 
 					
+					dp[t][w][i] = Math.max(dp[t-1][w-1][(i+1) % 2], dp[t-1][w][i]) + cur;
 					
-//					if(dp[t-1][w-1][i] == Integer.MAX_VALUE) {
-//						dp[t][w][i] = dp[t-1][w][i] + cur;
-//					}else if(dp[t-1][w][i] == Integer.MAX_VALUE) {
-//						dp[t][w][i] = dp[t-1][w-1][i] + cur;
-//					}else {
-						dp[t][w][i] = Math.max(dp[t-1][w-1][(i+1) % 2], dp[t-1][w][i]) + cur;
-//					}
-						
-
-						
-//					System.out.printf("dp[%d][%d][%d] = %d  => ",t, w, i, dp[t][w][i]);
-//					System.out.printf("dp[%d][%d][%d] = %d   ",t-1, w-1, i, dp[t-1][w-1][i]);
-//					System.out.printf("dp[%d][%d][%d] = %d   \n",t-1, w, i, dp[t-1][w][i]);
-					
-//					System.out.printf("dp[%d][%d][%d] = %d\n", t+1, w, i+1, dp[t][w][i]);
 				}
 			}
 		}
-		
-//		for(int w=0; w<=W; w++) {
-//			for(int i=0; i<2; i++) {
-//				System.out.printf("dp[0][%d][%d] = %d ", w, i, dp[0][w][i]);
-//			}
-//			
-//			System.out.print("      ");
-//		}
-//		System.out.println();
-//		for(int w=0; w<=W; w++) {
-//			for(int i=0; i<2; i++) {
-//				System.out.printf("dp[1][%d][%d] = %d ", w, i, dp[1][w][i]);
-//			}
-//			
-//			System.out.print("      ");
-//		}
-		
 		
 		int answer = 0; 
 		for(int w=0; w<=W; w++) {
@@ -88,7 +56,6 @@ public class Main {
 		}
 		
 		System.out.println(answer);
-		
 	}
 
 }
