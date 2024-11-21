@@ -2,23 +2,28 @@ import java.util.*;
 
 class Solution {
     public long solution(long n) {
-        // 자릿수를 저장할 배열 생성
-        List<Integer> digits = new ArrayList<>();
-        
-        // 숫자를 추출하여 리스트에 저장
-        while (n > 0) {
-            digits.add((int) (n % 10));
-            n /= 10;
-        }
-        
-        // 리스트를 내림차순으로 정렬
-        digits.sort(Comparator.reverseOrder());
-        
-        // 정렬된 리스트를 이용해 새로운 숫자 생성
         long answer = 0;
-        for (int digit : digits) {
-            answer = answer * 10 + digit;
+        
+        String num = String.valueOf(n);
+        Integer[] arr = new Integer[num.length()];
+
+        // 각 자리수를 Integer 배열에 저장
+        for (int i = 0; i < num.length(); i++) {
+            arr[i] = num.charAt(i) - '0'; // '0'을 빼서 숫자로 변환
         }
+        
+        // System.out.println(Arrays.toString(arr));
+        
+ 
+        Arrays.sort(arr, (o1, o2) -> -(o1-o2));
+        // System.out.println(Arrays.toString(arr));
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < num.length(); i++) {
+            sb.append(arr[i]);
+        }
+        
+        answer = Long.parseLong(sb.toString());
         
         return answer;
     }
