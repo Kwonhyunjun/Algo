@@ -33,21 +33,17 @@ public class Main {
 
 		
 		answer = Integer.MIN_VALUE;
-		for(int i=0; i<N; i++) { // 버킷
 			
-			for(int j=1; j<N; j++) {
-				calc(0, j, N-1);
-			}
-			
-			for(int j=1; j<N-1; j++) {
-				calc(0, N-1, j);
-			}
-			
-			for(int j=0; j<N-1; j++){
-				calc(j, N-1, 0);
-			}
-			
-			
+		for(int j=1; j<N; j++) {
+			calc(0, j, N-1);
+		}
+		
+		for(int j=1; j<N-1; j++) {
+			calc(0, N-1, j);
+		}
+		
+		for(int j=0; j<N-1; j++){
+			calc(j, N-1, 0);
 		}
 		
 		System.out.println(answer);
