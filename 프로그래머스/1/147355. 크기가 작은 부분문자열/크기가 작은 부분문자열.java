@@ -2,17 +2,15 @@ class Solution {
     public int solution(String t, String p) {
         int answer = 0;
         
-        int cnt = t.length() - p.length();
-        long num = Long.parseLong(p); 
+        long p_num = Long.parseLong(p);
         
-        for(int i=0; i<cnt+1 ; i++){
-            String str = t.substring(i, i+p.length()); 
-            // System.out.println(Integer.parseInt(str)); 
+        for(int i=0; i<=t.length() - p.length(); i++){
+            String part = t.substring(i, i+p.length()); 
             
-            if(num >= Long.parseLong(str)){
-                answer++; 
-            }
+            if(p_num >= Long.parseLong(part)) answer++;
+                    
         }
+        
         return answer;
     }
 }
