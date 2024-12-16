@@ -5,7 +5,6 @@ class Solution {
         String[] answer = {};
         
         Arrays.sort(strings);
-        System.out.println(Arrays.toString(strings));
         
         Arrays.sort(strings, (o1, o2) -> (o1.charAt(n) - o2.charAt(n)));
 
