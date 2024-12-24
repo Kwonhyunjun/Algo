@@ -1,50 +1,47 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-int answer = 0;
+        int answer = 0;
         
-        Arrays.sort(lost);
-        Arrays.sort(reserve); 
+        int[] clothes = new int[n+1];
         
-       	List<Integer> list = new ArrayList<Integer>();
-       	
-       	for(int num : lost) {
-       		list.add(num); 
-       	}
-       	
-       	for(int i=0; i<reserve.length; i++) {
-       		int num = reserve[i];
-       		if(list.contains(num)) {
-       			int idx = list.indexOf(num);
-       			list.remove(idx);
-       			reserve[i] = -1; 
-       		}
-       	}
-//       	System.out.println(Arrays.toString(reserve));
-//       	System.out.println(lost);
-       	
-       	for(int num : reserve) {
-       		if(num == -1) continue; 
-       		int prev = num-1; 
-       		int next = num+1; 
-       		
-       		if(list.contains(prev)) {
-       			int idx = list.indexOf(prev);
-       			list.remove(idx);
-       			continue; 
-       		}
-       		if(list.contains(next)) {
-       			int idx = list.indexOf(next);
-       			list.remove(idx);
-       			continue; 
-       		}
-       	}
-       	
-       	answer = n - list.size(); 
+        Arrays.fill(clothes, 1);
+        clothes[0] = -1;
+        for(int l : lost){
+            clothes[l]--;
+        }
         
-       
+        for(int r : reserve){
+            clothes[r]++;
+        }
+        
+        System.out.println(Arrays.toString(clothes));
+        
+        for(int i=1; i<n+1; i++){
+            int cur = clothes[i];
+            if(cur != 0) continue; 
+            
+            int prev = (i==1) ? 0 : clothes[i-1];
+            int next = (i==n) ? 0 : clothes[i+1];
+            
+            if(prev < 2 && next < 2) continue;
+            
+            int borrow = 0; 
+            if((prev >= 2 && next >= 2) || (prev >= 2)){
+                borrow = i-1;
+            }else{
+                borrow = i+1;
+            }
+            
+            clothes[i]++;
+            clothes[borrow]--;
+        }
+        
+        for(int cloth : clothes){
+            if(cloth >= 1) answer++;
+        }
+        
         return answer;
     }
 }
