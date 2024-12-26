@@ -6,36 +6,27 @@ class Solution {
         
         char[] arr = s.toCharArray();
         
-        int cnt1 = 0;
-        int cnt2 = 0;
-        char x = 'a'; 
+        char prev = s.charAt(0);
+        int cnt = 1; 
         
-        for(char c : arr){
-            // 첫 글자 저장
-            if(cnt1 == 0) {
-                x = c;
-                cnt1++;
-                continue;
-            }
-            
-            // 글자 나온 횟수
-            if(x == c){
-                cnt1++; 
+        for(int i=1; i<arr.length; i++){
+            char cur = arr[i];
+            if(prev == cur){
+                cnt++;
             }else{
-                cnt2++;
-            }
-            
-            // 두 횟수가 같아지는 순간
-            if(cnt1 == cnt2){
-                answer++;
-                cnt1 = 0; 
-                cnt2 = 0; 
+                cnt--; 
+                if(cnt == 0){
+                    answer++;
+                    if(i+1 < arr.length){
+                        i++;
+                        prev = s.charAt(i);
+                        cnt = 1;    
+                    }
+                }
             }
         }
         
-        if(cnt1 != 0){
-            answer++; 
-        }
+        if(cnt > 0) answer++;
         
         return answer;
     }
