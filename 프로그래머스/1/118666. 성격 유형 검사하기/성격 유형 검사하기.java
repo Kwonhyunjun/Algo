@@ -1,91 +1,49 @@
-import java.util.*; 
+import java.util.*;
 
 class Solution {
+    class Data{
+        char type; 
+        int score;
+        public Data(char type, int score){
+            this.type = type;
+            this.score = score;
+        }
+    }
     public String solution(String[] survey, int[] choices) {
         String answer = "";
-        // 비동의 + 동의
         
-        int len = choices.length; 
-        HashMap<Character, Integer> m = new HashMap<>();
+        char[] type = new char[]{'R', 'T', 'C', 'F', 'J', 'M', 'A', 'N'}; 
+        Data[][] result = new Data[4][2];
+        HashMap<Character, int[]> map = new HashMap<>();
+        for(int i=0; i<8; i++){
+            map.put(type[i], new int[]{i/2, i%2});
+            result[i/2][i%2] = new Data(type[i], 0);
+        }
+        
+        int len = survey.length;
         
         for(int i=0; i<len; i++){
-            if(choices[i] == 4) continue; 
+            String types = survey[i];
+            int score = choices[i];
             
-            char c; 
-            if(choices[i] < 4){ // 비동의쪽
-                c = survey[i].charAt(0);
-                
-                int score = 4 - choices[i]; 
-                
-                if(m.containsKey(c)){
-                    m.put(c, m.get(c) + score); 
-                }else{
-                    m.put(c, score);
-                }
-                
-            }else{ // 동의 
-                c = survey[i].charAt(1);
-                
-                 int score = choices[i] - 4; 
-                
-                if(m.containsKey(c)){
-                    m.put(c, m.get(c) + score); 
-                }else{
-                    m.put(c, score);
-                }
-                
-            }
-        } // 점수 측정 완료
-        
-        char[] res = new char[4]; 
-        
-        // R, T
-        int R = m.getOrDefault('R', 0); 
-        int T = m.getOrDefault('T', 0); 
-        
-        if(R >= T){
-            res[0] = 'R'; 
-        }else{
-            res[0] = 'T'; 
+            if(score == 4) continue; 
+            
+            char typeIdx = (score > 4) ? types.charAt(1) : types.charAt(0); 
+            int weight = Math.abs(score - 4); 
+            
+            int[] matrixIdx = map.get(typeIdx);
+            result[matrixIdx[0]][matrixIdx[1]].score += weight;
         }
         
-        // F, C
-        int F = m.getOrDefault('F', 0); 
-        int C = m.getOrDefault('C', 0); 
-        
-        if(C >= F){
-            res[1] = 'C'; 
-        }else{
-            res[1] = 'F'; 
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<4; i++){
+            Data first = result[i][0];
+            Data second = result[i][1];
+            char select = (first.score >= second.score) ? first.type : second.type;
+            sb.append(select);
         }
         
-        // M, J
-        int M = m.getOrDefault('M', 0); 
-        int J = m.getOrDefault('J', 0); 
-        
-        if(J >= M){
-            res[2] = 'J'; 
-        }else{
-            res[2] = 'M'; 
-        }
-        
-        // A, N 
-        int A = m.getOrDefault('A', 0); 
-        int N = m.getOrDefault('N', 0); 
-        
-        if(A >= N){
-            res[3] = 'A'; 
-        }else{
-            res[3] = 'N'; 
-        }
-        
-        System.out.println(Arrays.toString(res)); 
-        System.out.printf("R : %d T: %d F: %d C: %d M: %d J: %d A: %d N: %d  ", R, T, F, C, M, J, A, N);
-        // Arrays.sort(res); 
-        
-        for(char ch : res){
-            answer += ch;     
-        }
+        answer = sb.toString();
         
         return answer;
     }
