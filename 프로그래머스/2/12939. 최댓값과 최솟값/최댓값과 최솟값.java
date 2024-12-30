@@ -1,26 +1,23 @@
-import java.io.*;
 import java.util.*;
-    
+
 class Solution {
     public String solution(String s) {
         String answer = "";
         
-        List<Integer> list = new ArrayList<>(); 
-        StringTokenizer st = new StringTokenizer(s);
+        StringTokenizer st = new StringTokenizer(s); 
+        
+        int first = Integer.parseInt(st.nextToken());
+        int max = first;
+        int min = first;
         
         while(st.hasMoreTokens()){
-            list.add(Integer.parseInt(st.nextToken()));
+            int num = Integer.parseInt(st.nextToken());
+            
+            max = Math.max(max, num);
+            min = Math.min(min, num);
         }
         
-        int max = list.get(0); 
-        int min = list.get(0);
-        
-        for(int cur : list){
-            max = Math.max(max, cur); 
-            min = Math.min(min, cur); 
-        }
-        
-        answer = String.valueOf(min) + " " + String.valueOf(max); 
+        answer = min + " " + max;
         
         return answer;
     }
