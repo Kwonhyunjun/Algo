@@ -4,60 +4,37 @@ class Solution {
     public String solution(String s) {
         String answer = "";
         
-        // StringTokenizer st = new StringTokenizer(s);
-        StringBuilder sb = new StringBuilder(); 
+        StringTokenizer st = new StringTokenizer(s);
+        StringBuilder sb = new StringBuilder();
         
-        // System.out.println('A'-0);
-        // System.out.println('Z'-0);
-        // System.out.println('a'-0);
-        // System.out.println('z'-0);
-        // System.out.println('0'-0);
-        // System.out.println('1'-0);
-        // System.out.println('9'-0);
-        
-//         while(st.hasMoreTokens()){
-//             String cur = st.nextToken(); 
-            
-//             int start = cur.charAt(0) - 0;
-            
-//             if(start >= 48 && start < 58){
-//                 sb.append(cur);
-//             }else{ 
-//                 // System.out.println(String.valueOf(cur.charAt(0)).toUpperCase()); 
-//                 String str = String.valueOf(cur.charAt(0)).toUpperCase(); 
-//                 String rest = cur.substring(1).toLowerCase(); 
-//                 // System.out.println(rest); 
-//                 sb.append(str).append(rest); 
-//             }
-//             sb.append(" ");
-//         }
-        
-//         // System.out.println(sb); 
-//         sb.setLength(sb.length()-1);
-//         answer = sb.toString();
-        
-        String token = ""; 
-        
+        boolean flag = true;
         for(char cur : s.toCharArray()){
-
             if(cur == ' '){
-                sb.append(token).append(" "); 
-                token = ""; 
-                continue;
+                flag = true; 
+                sb.append(cur); 
+                continue; 
             }
             
-            if("".equals(token)){
-                token += String.valueOf(cur).toUpperCase();
+            if(flag){
+                sb.append(String.valueOf(cur).toUpperCase());
+                flag = false;
             }else{
-                token += String.valueOf(cur).toLowerCase();
+                sb.append(String.valueOf(cur).toLowerCase());
             }
+            
+            
         }
         
-        sb.append(token); 
+//         while(st.hasMoreTokens()){
+//             String str = st.nextToken();
+            
+//             String first = str.substring(0, 1);
+//             String rest = str.substring(1);
+//             sb.append(first.toUpperCase()).append(rest.toLowerCase()).append(" ");
+//         }
         
-        System.out.println(sb); 
-        
-        answer = sb.toString(); 
+//         sb.setLength(sb.length()-1);
+        answer = sb.toString();
         
         return answer;
     }
