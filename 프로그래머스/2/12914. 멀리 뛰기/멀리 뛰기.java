@@ -1,15 +1,22 @@
+import java.util.*;
+
 class Solution {
     public long solution(int n) {
         long answer = 0;
-        long[] dp = new long[n+2]; 
         
-        dp[1] = 1;
-        dp[2] = 2; 
+        long[] memo = new long[n+1]; 
+
+        if(n==1) return 1; 
         
-        for(int i=3; i<n+1; i++){
-            dp[i] = (dp[i-1] + dp[i-2]) % 1234567; 
+        memo[1] = 1; 
+        memo[2] = 2; 
+        
+        for(int i=3; i<=n; i++){
+            memo[i] = (memo[i-1] + memo[i-2]) % 1234567; 
         }
         
-        return dp[n];
+        answer = memo[n];
+        
+        return answer;
     }
 }
