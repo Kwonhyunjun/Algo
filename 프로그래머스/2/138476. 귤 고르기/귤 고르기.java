@@ -1,24 +1,32 @@
-import java.util.*; 
+import java.util.*;
 
 class Solution {
-    public int solution(int k, int[] tangerine) {
+    static class Data{
+        int num, cnt; 
+        
+        public Data(int num, int cnt){
+            this.num = num;
+            this.cnt = cnt;
+        }    
+    }
+    
+    public int solution(int k, int[] tangerines) {
         int answer = 0;
         
-        Map<Integer, Integer> m = new HashMap<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
         
-        for(int t : tangerine){
-            m.put(t, m.getOrDefault(t, 0)+1); 
+        for(int tangerine : tangerines){
+            map.put(tangerine, map.getOrDefault(tangerine, 0)+1); 
         }
         
-        List<Integer> list = new ArrayList<>(m.values());
-        Collections.sort(list, Collections.reverseOrder());
+        PriorityQueue<Data> pq = new PriorityQueue<>((o1, o2) -> -(o1.cnt - o2.cnt)); 
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            pq.offer(new Data(entry.getKey(), entry.getValue())); 
+        }
         
-        for(Integer a : list){
-            k -= a;
-            answer++;
-            if(k<1){
-                return answer; 
-            }
+        while(k > 0){
+            k -= pq.poll().cnt; 
+            answer++; 
         }
         
         return answer;
