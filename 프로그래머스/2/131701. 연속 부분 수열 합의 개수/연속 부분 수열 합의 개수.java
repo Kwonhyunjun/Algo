@@ -3,24 +3,23 @@ import java.util.*;
 class Solution {
     public int solution(int[] elements) {
         int answer = 0;
-        Set<Integer> result = new HashSet<>();
-
-        // 부분 수열의 원소 개수
-        for(int i = 1; i <= elements.length; i++){
-            int val = 0;
-            // init
-            Set<Integer> set = new HashSet<>();
-            for(int j = 0; j<i; j++) val += elements[j% elements.length];
-            set.add(val);
-
-            // linear calculate
-            for(int j = 0; j < elements.length; j++){
-                val -= elements[j% elements.length];
-                val += elements[(j + i) % elements.length];
-                set.add(val);
+        
+        HashSet<Integer> set = new HashSet<>();
+        
+        int len = elements.length; 
+        
+        for(int i=1; i<=len; i++){
+            for(int j=0; j<len; j++){
+                int sum = 0;
+                for(int k=0; k<i; k++){
+                    sum += elements[(j+k) % len];
+                }
+                // System.out.println(sum);
+                set.add(sum);
             }
-            result.addAll(set);
         }
-        return result.size();
+        answer = set.size();
+        
+        return answer;
     }
 }
