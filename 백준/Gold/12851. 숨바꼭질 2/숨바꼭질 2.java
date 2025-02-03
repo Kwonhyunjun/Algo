@@ -3,47 +3,46 @@ import java.util.*;
 
 public class Main {
 	
-	static int[] dx = {-1, 1, 2};
-	static int cnt=0, res = Integer.MAX_VALUE;
-	public static void main(String[] args) throws IOException{
+	static int N, K, min, count;
+
+	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
 		
-		bfs(n, k);
-		System.out.println(res);
-		System.out.println(cnt);
+		N = Integer.parseInt(st.nextToken());
+		K = Integer.parseInt(st.nextToken());
+		
+		min = 100001;
+		bfs();
+
+		System.out.println(min+ "\n" + count);
 	}
-	
-	static void bfs(int start, int destination) {
-		Queue<Integer> q = new LinkedList<>();
-		int[] move = new int[100_001];
-		q.add(start);
+			
+	static void bfs() {
+		
+		Queue<int[]> q = new ArrayDeque<>();
+		q.offer(new int[] {N, 0});
+		int[] move = new int[100001];
 		
 		while(!q.isEmpty()) {
-			int pos = q.poll();
+			int[] cur = q.poll();
 			
-			if(res < move[pos]) return;
-			if(move[pos]<=res && pos == destination) {
-				res = move[pos];
-				cnt++;
+			if(min < move[cur[0]]) continue; 
+			if(move[cur[0]] <= min && cur[0] == K) {
+				min = move[cur[0]];
+				count++; 
 			}
-
+			
 			for(int i=0; i<3; i++) {
-				int next = pos;
-				if(i==2) {
-					next = pos*dx[i];
-				}else {
-					next = pos + dx[i];	
-				}
+				int nextPos = (i==0) ? cur[0] + 1 : (i==1) ? cur[0] - 1 : cur[0] * 2;
 				
-				if (next>=0 && next <100001) {
-					if(move[next] ==0 || move[next] >= move[pos] + 1) {
-						move[next] = move[pos]+1;
-						q.add(next);
-					}
+				if(nextPos < 0 || nextPos >= 100001) continue; 
+				
+				if(move[nextPos] == 0 || move[nextPos] >= move[cur[0]]+1) {
+					q.offer(new int[] {nextPos, cur[1]+1});
+					move[nextPos] = move[cur[0]] + 1; 
 				}
+ 				 
 			}
 		}
 	}
