@@ -118,16 +118,10 @@ import java.util.StringTokenizer;
 					if(nr < 0 || nc < 0 || nr >= N || nc >= M) continue;
 					if(map[nr][nc] == 0) cnt++; 
 				}
-	//			System.out.printf("map[%d][%d] : %d - %d\n", curR, curC, map[curR][curC], cnt);
 				temp[curR][curC] = (map[curR][curC] - cnt < 0)? 0 : map[curR][curC] - cnt ; 
 				if(temp[curR][curC] == 0) list.remove(i);
 			}
 			map = temp; 
-	//		System.out.println();
-//			for(int[] arr : map) {
-//				System.out.println(Arrays.toString(arr));
-//			}
-	//		System.out.println(list);
 		}
 		
 	}
