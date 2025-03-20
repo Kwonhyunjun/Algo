@@ -54,8 +54,6 @@ public class Main {
 			}
 		}
 		
-//		System.out.println(Arrays.toString(parents));
-		
 		int c = 0;
 		
 		for(int i=0; i<M; i++) { // 각 파티마다
@@ -68,7 +66,6 @@ public class Main {
 			}
 			
 			if(flag) {
-//				System.out.printf("%d는 거짓말 쳐도 되는 파티\n", i);
 				c ++;
 			}
 		}
