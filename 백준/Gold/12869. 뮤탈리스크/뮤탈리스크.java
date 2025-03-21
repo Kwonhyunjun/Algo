@@ -2,54 +2,54 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+	
+	static int N, attack, scv[];
+	static int[][][] memo;
 
-	    static int[] hps = new int[3];
-	    static int[][][] memory;
-
-	    public static void main(String[] args) throws IOException {
-	        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	        int N = Integer.parseInt(br.readLine());
-
-	        StringTokenizer st = new StringTokenizer(br.readLine());
-
-	        for (int i = 0; i < N; i++) {//hp 값 초기화
-	            hps[i] = Integer.parseInt(st.nextToken());
-	        }
-
-	        memory = new int[hps[0] + 1][hps[1] + 1][hps[2] + 1];//dp를 위한 3중 배열 초기화
-	        
-	        for (int i = 0; i < memory.length; i++) {
-	            for (int j = 0; j < memory[i].length; j++) {
-	                Arrays.fill(memory[i][j], -1);
-	            }
-	        }
-
-	        System.out.println(check(hps[0], hps[1], hps[2]));
-	    }
-
-	    static int check(int hp1, int hp2, int hp3) {
-	        hp1 = Math.max(hp1, 0);
-	        hp2 = Math.max(hp2, 0);
-	        hp3 = Math.max(hp3, 0);
-
-	        if (hp1 == 0 && hp2 == 0 && hp3 == 0) {//hp가 모두 0이라면
-	            return 0;
-	        }
-
-	        if (memory[hp1][hp2][hp3] != -1) {//해당 상황에 대한 답이 이미 계산됐다면
-	            return memory[hp1][hp2][hp3];
-	        }
-
-	        int result = 987654321;
-
-	        //모든 경우의 수를 확인해 최적의 수 확인
-	        result = Math.min(result, check(hp1 - 9, hp2 - 3, hp3 - 1) + 1);
-	        result = Math.min(result, check(hp1 - 9, hp2 - 1, hp3 - 3) + 1);
-	        result = Math.min(result, check(hp1 - 3, hp2 - 9, hp3 - 1) + 1);
-	        result = Math.min(result, check(hp1 - 3, hp2 - 1, hp3 - 9) + 1);
-	        result = Math.min(result, check(hp1 - 1, hp2 - 3, hp3 - 9) + 1);
-	        result = Math.min(result, check(hp1 - 1, hp2 - 9, hp3 - 3) + 1);
-
-	        return memory[hp1][hp2][hp3] = result;//값 저장
-	    }
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		scv= new int[3];
+		
+		for(int i=0; i<N; i++) {
+			scv[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		memo = new int[61][61][61];
+		for(int i=0; i<61; i++) {
+			for(int j=0; j<61; j++) {
+				Arrays.fill(memo[i][j], Integer.MAX_VALUE);
+			}
+		}
+		
+		System.out.println(solve(scv[0], scv[1], scv[2]));
 	}
+
+	static int[] da = {-9, -9, -3, -1, -1, -3};
+	static int[] db = {-3, -1, -9, -9, -3, -1};
+	static int[] dc = {-1, -3, -1, -3, -9, -9};
+	
+	static int solve(int a, int b, int c) {		
+		
+		if(a <= 0 && b <= 0 && c <= 0) {
+			return 0;
+		}
+//		System.out.println(a + " " + b + " " + c);
+		if(memo[a][b][c] != Integer.MAX_VALUE) {
+			return memo[a][b][c];
+		}
+		
+		int res = Integer.MAX_VALUE;
+		for(int d=0; d<6; d++) {
+			int na = (a+da[d] <= 0) ? 0 : a+da[d];
+			int nb = (b+db[d] <= 0) ? 0 : b+db[d];
+			int nc = (c+dc[d] <= 0) ? 0 : c+dc[d];
+			
+			res = Math.min(solve(na, nb, nc)+1, res);
+		}
+		
+		return memo[a][b][c] =res;
+	}
+}
