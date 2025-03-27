@@ -1,99 +1,77 @@
 import java.io.*;
-import java.util.*; 
+import java.util.*;
 
 public class Main {
-
-	static int T, N, arr[]; 
-	static char[] command;
+	
+	static int T;
 	
 	public static void main(String[] args) throws Exception {
-		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st; 
+		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
 		
-		T = Integer.parseInt(br.readLine()); 
+		T = Integer.parseInt(br.readLine());
 		
-		next:for(int t=0; t<T; t++) {
-			command = br.readLine().toCharArray(); 
-		
+		for(int t=0; t<T; t++) {
+			String command = br.readLine();
 			
-			N = Integer.parseInt(br.readLine());
-			arr = new int[N]; 
+			int N = Integer.parseInt(br.readLine());
+			int[] arr = new int[N];
+			Deque<Integer> deque = new LinkedList<>();
 			
-			String array = br.readLine(); 
+			String array = br.readLine();
+			st = new StringTokenizer(array.substring(1, array.length()-1), ",");
 			
-			
-			st = new StringTokenizer(((array.substring(1, array.length()-1))), ",");
-			
-			
-			for(int i=0;i <N; i++) {
-				arr[i] = Integer.parseInt(st.nextToken()); 
+			for(int i=0; i<N; i++) {
+				arr[i] = Integer.parseInt(st.nextToken());
+				deque.offerLast(arr[i]);
 			}
 			
+			boolean occurError = false;
+			boolean isFirst = true;
 			
-			int head = 0; 
-			int tail = N-1;
-			int size = N; 
-			String cur = "head"; 
-			
-			for(char c : command) {
-				if(c == 'R') { // 뒤집기 
-					
-					if(cur.equals("head")) {
-						cur = "tail"; 
-					}else {
-						cur = "head";
-					}
-					
-				}else { // 삭제하기
-					if(size <= 0) {
-						System.out.println("error");
-						continue next;
-					}
-					
-					if(cur.equals("head")) {
-						arr[head] = -1; 
-						head++; 
-						size--; 
-					}else {
-						arr[tail] = -1; 
-						tail--; 
-						size--;
-					}
-					
-				}
-			}
-			
-			
-			StringBuilder sb = new StringBuilder();
-			
-			sb.append("[");
-			
-			int idx = (cur.equals("head"))? head : tail;
-			
-			while(idx >= 0 && idx < N && arr[idx] != -1 ) {
-				sb.append(arr[idx]).append(",");
-				
-				if(cur.equals("head")) {
-					idx++; 
+			for(char curCommand : command.toCharArray()) {
+				if(curCommand == 'R') {
+					isFirst = !isFirst;
 				}else {
-					idx--; 
+					if(deque.size() == 0) {
+						sb.append("error").append("\n");
+						occurError = true; 
+						break; 
+					}
+					
+					if(isFirst) {
+						deque.pollFirst();
+					}else {
+						deque.pollLast();
+					}
 				}
 			}
 			
-			String ans = ""; 
-			if(size != 0) {
-				ans  = sb.substring(0, sb.length()-1);
-			}else {
-				ans  = sb.substring(0, sb.length());
+			if(!occurError) {
+				if(deque.size() == 0) {
+					sb.append("[]").append("\n");
+					
+				}else {					
+					sb.append("[");
+					
+					if(isFirst) {
+						
+					}
+					while(!deque.isEmpty()) {
+						if(isFirst) {
+							sb.append(deque.pollFirst()).append(",");
+						}else {
+							sb.append(deque.pollLast()).append(",");
+						}
+					}
+					sb.setLength(sb.length()-1);
+					sb.append("]").append("\n");
+				}
 			}
-			
-			
-			
-			System.out.println(ans+"]");
-			
-			
 		}
+		
+		System.out.println(sb);
 
 	}
 
