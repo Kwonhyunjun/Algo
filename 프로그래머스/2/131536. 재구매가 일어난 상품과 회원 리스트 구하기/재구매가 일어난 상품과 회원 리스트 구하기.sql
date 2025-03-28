@@ -1,9 +1,9 @@
 -- 코드를 입력하세요
-# SELECT
-# FROM ONLINE_SALE 
-# WHERE; 
+SELECT user_id, product_id
+FROM ONLINE_SALE
 
-
-SELECT USER_ID, PRODUCT_ID FROM ONLINE_SALE GROUP BY USER_ID, PRODUCT_ID HAVING count(*) >1 ORDER BY USER_ID, PRODUCT_ID DESC; 
-
-
+# WHERE user_id = 15 and product_id = 12
+GROUP BY user_id, product_id
+# ORDER BY user_id, product_id
+HAVING COUNT(ONLINE_SALE_ID) > 1
+ORDER BY 1 , 2 DESC
